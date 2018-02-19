@@ -90,7 +90,7 @@ module.exports = context => {
       node[REASSIGN_REMAP_SKIP] = true;
 
       for (let reid of exports) {
-        node = buildExportsAssignment(reid, node).expression;
+        node = buildExportsAssignment([reid, node]).expression;
       }
 
       path.replaceWith(node);
@@ -196,7 +196,7 @@ module.exports = context => {
             if (cached) return cached;
 
             // require(moduleID);
-            const requireCallExpression = buildRequire(t.stringLiteral(source)).expression;
+            const requireCallExpression = buildRequire([t.stringLiteral(source)]).expression;
 
             // $INTEROP(require(moduleID));
             const wrappedRequireCall = interop
@@ -310,11 +310,11 @@ module.exports = context => {
                 let defNode = t.identifier('default');
                 if (id) {
                   addTo(exports, id.name, defNode);
-                  topNodes.push(buildExportsAssignment(defNode, id));
+                  topNodes.push(buildExportsAssignment([defNode, id]));
                   path.replaceWith(declaration.node);
                 } else {
                   topNodes.push(
-                    buildExportsAssignment(defNode, t.toExpression(declaration.node))
+                    buildExportsAssignment([defNode, t.toExpression(declaration.node)])
                   );
                   path.remove();
                 }
@@ -325,11 +325,11 @@ module.exports = context => {
                   addTo(exports, id.name, defNode);
                   path.replaceWithMultiple([
                     declaration.node,
-                    buildExportsAssignment(defNode, id)
+                    buildExportsAssignment([defNode, id])
                   ]);
                 } else {
                   path.replaceWith(
-                    buildExportsAssignment(defNode, t.toExpression(declaration.node))
+                    buildExportsAssignment([defNode, t.toExpression(declaration.node)])
                   );
 
                   // Manualy re-queue `export default class {}` expressions so
@@ -340,7 +340,7 @@ module.exports = context => {
                 }
               } else {
                 path.replaceWith(
-                  buildExportsAssignment(t.identifier('default'), declaration.node)
+                  buildExportsAssignment([t.identifier('default'), declaration.node])
                 );
 
                 // Manualy re-queue `export default foo;` expressions so that
@@ -355,14 +355,14 @@ module.exports = context => {
                 if (declaration.isFunctionDeclaration()) {
                   let id = declaration.node.id;
                   addTo(exports, id.name, id);
-                  topNodes.push(buildExportsAssignment(id, id));
+                  topNodes.push(buildExportsAssignment([id, id]));
                   path.replaceWith(declaration.node);
                 } else if (declaration.isClassDeclaration()) {
                   let id = declaration.node.id;
                   addTo(exports, id.name, id);
                   path.replaceWithMultiple([
                     declaration.node,
-                    buildExportsAssignment(id, id)
+                    buildExportsAssignment([id, id])
                   ]);
                   nonHoistedExportNames[id.name] = true;
                 } else if (declaration.isVariableDeclaration()) {
@@ -375,7 +375,7 @@ module.exports = context => {
 
                     if (id.isIdentifier()) {
                       addTo(exports, id.node.name, id.node);
-                      init.replaceWith(buildExportsAssignment(id.node, init.node).expression);
+                      init.replaceWith(buildExportsAssignment([id.node, init.node]).expression);
                       nonHoistedExportNames[id.node.name] = true;
                     } else {
                       // todo
@@ -400,20 +400,20 @@ module.exports = context => {
                   } else if (specifier.isExportSpecifier()) {
                     if (specifier.node.local.name === 'default') {
                       topNodes.push(
-                        buildExportsFrom(
+                        buildExportsFrom([
                           t.stringLiteral(specifier.node.exported.name),
                           t.memberExpression(
                             t.callExpression(this.addHelper('interopRequireDefault'), [ref]),
                             specifier.node.local
                           )
-                        )
+                        ])
                       );
                     } else {
                       topNodes.push(
-                        buildExportsFrom(
+                        buildExportsFrom([
                           t.stringLiteral(specifier.node.exported.name),
                           t.memberExpression(ref, specifier.node.local)
-                        )
+                        ])
                       );
                     }
                     nonHoistedExportNames[specifier.node.exported.name] = true;
@@ -425,10 +425,10 @@ module.exports = context => {
                     addTo(exports, specifier.node.local.name, specifier.node.exported);
                     nonHoistedExportNames[specifier.node.exported.name] = true;
                     nodes.push(
-                      buildExportsAssignment(
+                      buildExportsAssignment([
                         specifier.node.exported,
                         specifier.node.local
-                      )
+                      ])
                     );
                   }
                 }
@@ -489,7 +489,7 @@ module.exports = context => {
               }
             } else {
               // bare import
-              let requireNode = buildRequire(t.stringLiteral(source));
+              let requireNode = buildRequire([t.stringLiteral(source)]);
               requireNode.loc = imports[source].loc;
               topNodes.push(requireNode);
             }
@@ -499,10 +499,10 @@ module.exports = context => {
             let hoistedExportsNode = t.identifier('undefined');
 
             for (let name in nonHoistedExportNames) {
-              hoistedExportsNode = buildExportsAssignment(
+              hoistedExportsNode = buildExportsAssignment([
                 t.identifier(name),
                 hoistedExportsNode
-              ).expression;
+              ]).expression;
             }
 
             const node = t.expressionStatement(hoistedExportsNode);
