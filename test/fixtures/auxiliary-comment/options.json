@@ -1,5 +1,5 @@
 {
-  "plugins": ["external-helpers", "transform-inline-imports-commonjs"],
+  "plugins": ["@babel/external-helpers", "transform-inline-imports-commonjs"],
   "auxiliaryCommentBefore": "before",
   "auxiliaryCommentAfter": "after"
 }

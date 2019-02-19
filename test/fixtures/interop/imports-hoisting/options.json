@@ -1,7 +1,7 @@
 {
   "plugins": [
-    "transform-runtime",
-    "transform-es2015-template-literals",
+    "@babel/transform-runtime",
+    "@babel/transform-template-literals",
     "transform-inline-imports-commonjs"
   ]
 }

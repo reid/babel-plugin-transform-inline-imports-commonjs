@@ -1,9 +1,9 @@
 {
   "plugins": [
-    "transform-es2015-arrow-functions",
-    "transform-es2015-block-scoping",
-    "transform-es2015-function-name",
-    "transform-es2015-parameters",
+    "@babel/transform-arrow-functions",
+    "@babel/transform-block-scoping",
+    "@babel/transform-function-name",
+    "@babel/transform-parameters",
     "transform-inline-imports-commonjs"
   ]
 }
