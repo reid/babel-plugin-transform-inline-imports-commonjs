@@ -3,11 +3,19 @@
 var _taggedTemplateLiteral2;
 
 function _load_taggedTemplateLiteral() {
-  return _taggedTemplateLiteral2 = _interopRequireDefault(require("babel-runtime/helpers/taggedTemplateLiteral"));
+  return _taggedTemplateLiteral2 = _interopRequireDefault(require("@babel/runtime/helpers/taggedTemplateLiteral"));
 }
 
-var _templateObject = (0, (_taggedTemplateLiteral2 || _load_taggedTemplateLiteral()).default)(["foo"], ["foo"]);
+import _interopRequireDefault from "@babel/runtime/helpers/interopRequireDefault";
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _templateObject() {
+  const data = (0, (_taggedTemplateLiteral2 || _load_taggedTemplateLiteral()).default)(["foo"]);
 
-tag(_templateObject);
+  _templateObject = function () {
+    return data;
+  };
+
+  return data;
+}
+
+tag(_templateObject());

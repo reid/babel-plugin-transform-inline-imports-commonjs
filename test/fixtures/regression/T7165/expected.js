@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 var _bar;
 
 function _load_bar() {
-  return _bar = require('bar');
+  return _bar = require("bar");
 }
 
 Object.keys(_bar || _load_bar()).forEach(function (key) {
@@ -23,7 +23,7 @@ Object.keys(_bar || _load_bar()).forEach(function (key) {
 var _foo;
 
 function _load_foo() {
-  return _foo = _interopRequireDefault(require('foo'));
+  return _foo = _interopRequireDefault(require("foo"));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

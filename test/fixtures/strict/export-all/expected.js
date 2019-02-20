@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 var _mod;
 
 function _load_mod() {
-  return _mod = require('mod');
+  return _mod = require("mod");
 }
 
 Object.keys(_mod || _load_mod()).forEach(function (key) {

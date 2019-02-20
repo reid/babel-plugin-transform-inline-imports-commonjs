@@ -37,7 +37,6 @@ function _load_foo4() {
 
 exports.test = test;
 var test2 = exports.test2 = 5;
-
 (_foo3 || _load_foo3()).bar;
 (_foo4 || _load_foo4()).foo;
 (_foo || _load_foo()).default;
