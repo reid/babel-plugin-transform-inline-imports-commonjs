@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-inline-imports-commonjs",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "A Babel transform that turns imports into lazily loaded commonjs requires",
   "keywords": [
     "babel-plugin",
@@ -17,6 +17,7 @@
     "test": "tap test/*-test.js"
   },
   "dependencies": {
+    "@babel/helper-plugin-utils": "^7.0.0",
     "babel-plugin-transform-strict-mode": "^6.8.0",
     "builtin-modules": "^1.1.1"
   },

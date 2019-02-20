@@ -2,6 +2,7 @@
 
 const pathModule = require('path');
 const builtinModules = new Set(require('builtin-modules/static'));
+const declare = require('@babel/helper-plugin-utils').declare;
 
 const THIS_BREAK_KEYS = [
   'FunctionExpression',
@@ -11,7 +12,9 @@ const THIS_BREAK_KEYS = [
   'ObjectMethod',
 ];
 
-module.exports = context => {
+module.exports = declare(context => {
+  context.assertVersion(7);
+
   const template = context.template;
   const t = context.types;
 
@@ -533,4 +536,4 @@ module.exports = context => {
       }
     }
   };
-}
+});
